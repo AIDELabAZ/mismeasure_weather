@@ -1,4 +1,4 @@
-* Project: WB Weather - privacy paper
+* Project: WB Weather - mismeasure paper
 * Created on: 13 December 2019
 * Created by: jdm
 * Edited by: alj
@@ -32,7 +32,7 @@
 	
 * open log	
 	cap log close
-	log 	using 	"$logout/privacy_coeff_vis", append
+	log 	using 	"$logout/mismeasure_coeff_vis", append
 
 
 ************************************************************************
