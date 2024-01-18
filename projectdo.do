@@ -24,7 +24,7 @@
 	global 			pack 	0
 		
 * Specify Stata version in use
-    global stataVersion 17.0    // set Stata version
+    global stataVersion 18.0    // set Stata version
     version $stataVersion
 
 * **********************************************************************
@@ -37,7 +37,7 @@
 		global 		data	"C:/Users/jdmichler/OneDrive - University of Arizona/weather_project"
     }
 
-    if `"`c(username)'"' == "aljosephson" {
+    if `"`c(username)'"' == "annal" {
         global 		code  	"C:/Users/aljosephson/git/mismeasure_weather"
 		global 		data	"C:/Users/aljosephson/OneDrive - University of Arizona/weather_project"
     }
