@@ -43,7 +43,7 @@
 * load data 
 	use 			"$root/lsms_complete_results", clear
 	
-* keep HH Bilinear	
+* keep HH Bilinear - true hh coordinates 
 	keep			if ext == 1
 	
 *generate different betas based on signficance
