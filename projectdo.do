@@ -1,7 +1,7 @@
 * Project: Mismeasure Weather
 * Created on: January 2024
 * Created by: jdm
-* Stata v.180
+* Stata v.18.0
 
 * does
 	* establishes an identical workspace between users

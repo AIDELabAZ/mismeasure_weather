@@ -1,8 +1,8 @@
 * Project: WB Weather - mismeasure paper
 * Created on: 4 April 2023
 * Created by: jdm
-* Edited by: jdm
-* Last edit: 18 Jan 2024
+* Edited by: alj
+* Last edit: 25 Jan 2024
 * Stata v.18.0 
 
 * does
@@ -14,8 +14,8 @@
 	* grc1leg2.ado
 
 * TO DO:
-	* everything
-
+	* experimenting in section 2
+	* tidy, clean, etc. 
 	
 ************************************************************************
 **# 0 - setup
@@ -71,17 +71,88 @@
 	
 	
 ************************************************************************
-**# 2 - generate specification chart for mean rainfall
+**# 2 - generate specification chart varying over rainfall measure
 ************************************************************************
+
+* experimenting with specification chart 
+ 
+levelsof varname, local(varrain)
+foreach i of local varrain {
+
+keep if `i' < 15
+*** generating blank graphs for temperature - need to fix 
+
+preserve
+	keep			if varname == `i' & regname == 3
+	sort 			country beta
+	gen 			obs = _n
+
+* stack values of the specification indicators
+	gen 			k1 		= 	country
+	gen 			k2 		= 	depvar + 7 + 2
+	gen 			k3 		= 	sat + 2 + 2 + 7 + 2
+	
+* label new variables	
+	lab				var obs "Specification # - sorted by effect size"
+
+	lab 			var k1 "Country"
+	lab				var k2 "Dep. Var."
+	lab 			var k3 "Weather Product"
+
+	qui sum			ci_up
+	global			bmax = r(max)
+	
+	qui sum			ci_lo
+	global			bmin = r(min)
+	
+	global			brange	=	$bmax - $bmin
+	global			from_y	=	$bmin - 2.5*$brange
+	global			gheight	=	27
+
+	twoway 			scatter k1 k2 k3 obs, xlab(0(4)72) xsize(10) ysize(6) xtitle("") ytitle("") ///
+						ylab(0(1)$gheight ) ///
+						msize(small small small) mcolor(gs10 gs10 gs10) ylabel( ///
+						1 "Ethiopia" 2 "Malawi" 4 "Niger" 5 "Nigeria" 6 "Tanzania" ///
+						7 "Uganda " 8 "*{bf: Country}*" 10 "Quantity" 11 "Value" 12 "*{bf:Dep. Var.}*" ///
+						14 "CHIRPS" 15 "CPC" 16 "MERRA-2" 17 "ARC2" 18 "ERA5" ///
+						19 "TAMSAT" 20 "*{bf:Weather Product}*" 27 " ", ///
+						angle(0) labsize(vsmall) tstyle(notick)) || ///
+						(scatter b_ns obs, yaxis(2) mcolor(black%75) ylab(, ///
+						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						range($from_y $bmax ) axis(2)) ) || ///
+						(scatter b_sig obs, yaxis(2) mcolor(edkblue%75) ylab(, ///
+						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						range($from_y $bmax ) axis(2)) ) || ///
+						(rbar ci_lo ci_up obs if b_sig == ., ///
+						barwidth(.2) color(black%50) yaxis(2) ) || ///
+						(rbar ci_lo ci_up obs if b_sig != ., ///
+						barwidth(.2) color(edkblue%50) yaxis(2)  ///
+						yline(0, lcolor(maroon) axis(2) lstyle(solid) ) ///
+						xline(12.5, lcolor(black) lstyle(solid)) ///
+						xline(24.5, lcolor(black) lstyle(solid)) ///
+						xline(36.5, lcolor(black) lstyle(solid)) ///
+						xline(48.5, lcolor(black) lstyle(solid)) ///
+						xline(60.5, lcolor(black) lstyle(solid)) ), ///
+						legend(order(4 5) cols(2) size(small) rowgap(.5) pos(12)) 
+						*** need to cut gap between Niger and Malawi 
+						*** and why not alphabetical 
+				
+graph export 	"$xfig\v_`i'_reg3.pdf", as(pdf) replace
+restore
+}
 		
 	
 ************************************************************************
-**## 2a - ethiopia
+**# 3 - generate specification chart for mean rainfall
+************************************************************************		
+	
+************************************************************************
+**## 3a - ethiopia
 ************************************************************************
 	
 preserve
 	keep			if varname == 1 & country == 1 & regname < 4
-	sort 			beta
+	sort 			regname sat beta
 	gen 			obs = _n
 
 * stack values of the specification indicators
@@ -128,12 +199,12 @@ preserve
 						legend(order(4 5) cols(2) size(small) rowgap(.5) pos(12)) 	///
 						saving("$sfig/v01_cty1", replace)
 				
-	graph export 	"$xfig\v01_cty1.pdf", as(pdf) replace
+*graph export 	"$xfig\v01_cty1.pdf", as(pdf) replace
 restore
 
 
 ************************************************************************
-**## 2b - malawi
+**## 3b - malawi
 ************************************************************************
 	
 preserve
@@ -190,7 +261,7 @@ restore
 
 
 ************************************************************************
-**## 2c - Niger
+**## 3c - Niger
 ************************************************************************
 	
 preserve
@@ -247,7 +318,7 @@ restore
 
 
 ************************************************************************
-**## 2d - Nigeria
+**## 3d - Nigeria
 ************************************************************************
 
 	
@@ -305,7 +376,7 @@ restore
 
 
 ************************************************************************
-**## 2e - Tanzania
+**## 3e - Tanzania
 ************************************************************************
 
 preserve
@@ -362,7 +433,7 @@ restore
 
 
 ************************************************************************
-**## 2f - Uganda
+**## 3f - Uganda
 ************************************************************************
 
 	
@@ -420,12 +491,12 @@ restore
 
 	
 ************************************************************************
-**# 3 - generate specification chart for z-score total rain
+**# 4 - generate specification chart for z-score total rain
 ************************************************************************
 
 	
 ************************************************************************
-**## 3a - ethiopia
+**## 4a - ethiopia
 ************************************************************************
 	
 preserve
@@ -482,7 +553,7 @@ restore
 
 
 ************************************************************************
-**## 3b - malawi
+**## 4b - malawi
 ************************************************************************
 	
 preserve
@@ -539,7 +610,7 @@ restore
 
 
 ************************************************************************
-**## 3c - Niger
+**## 4c - Niger
 ************************************************************************
 	
 preserve
@@ -596,7 +667,7 @@ restore
 
 
 ************************************************************************
-**## 3d - Nigeria
+**## 4d - Nigeria
 ************************************************************************
 
 	
@@ -654,7 +725,7 @@ restore
 
 
 ************************************************************************
-**## 3e - Tanzania
+**## 4e - Tanzania
 ************************************************************************
 
 preserve
@@ -711,7 +782,7 @@ restore
 
 
 ************************************************************************
-**## 3f - Uganda
+**## 4f - Uganda
 ************************************************************************
 
 	
@@ -769,12 +840,12 @@ restore
 
 	
 ************************************************************************
-**# 4 - generate specification chart for GDD
+**# 5 - generate specification chart for GDD
 ************************************************************************
 
 	
 ************************************************************************
-**## 4a - ethiopia
+**## 5a - ethiopia
 ************************************************************************
 	
 preserve
@@ -835,7 +906,7 @@ restore
 
 
 ************************************************************************
-**## 4b - malawi
+**## 5b - malawi
 ************************************************************************
 	
 preserve
@@ -896,7 +967,7 @@ restore
 
 
 ************************************************************************
-**## 4c - Niger
+**## 5c - Niger
 ************************************************************************
 	
 preserve
@@ -957,7 +1028,7 @@ restore
 
 
 ************************************************************************
-**## 4d - Nigeria
+**## 5d - Nigeria
 ************************************************************************
 
 	
@@ -1019,7 +1090,7 @@ restore
 
 
 ************************************************************************
-**## 4e - Tanzania
+**## 5e - Tanzania
 ************************************************************************
 
 preserve
@@ -1080,7 +1151,7 @@ restore
 
 
 ************************************************************************
-**## 4f - Uganda
+**## 5f - Uganda
 ************************************************************************
 
 	
@@ -1141,12 +1212,12 @@ preserve
 restore
 	
 ************************************************************************
-**# 5 - generate specification chart for z-score GDD
+**# 6 - generate specification chart for z-score GDD
 ************************************************************************
 
 	
 ************************************************************************
-**## 5a - ethiopia
+**## 6a - ethiopia
 ************************************************************************
 	
 preserve
@@ -1207,7 +1278,7 @@ restore
 
 
 ************************************************************************
-**## 5b - malawi
+**## 6b - malawi
 ************************************************************************
 	
 preserve
@@ -1268,7 +1339,7 @@ restore
 
 
 ************************************************************************
-**## 5c - Niger
+**## 6c - Niger
 ************************************************************************
 	
 preserve
@@ -1329,7 +1400,7 @@ restore
 
 
 ************************************************************************
-**## 5d - Nigeria
+**## 6d - Nigeria
 ************************************************************************
 
 	
@@ -1391,7 +1462,7 @@ restore
 
 
 ************************************************************************
-**## 5e - Tanzania
+**## 6e - Tanzania
 ************************************************************************
 
 preserve
@@ -1452,7 +1523,7 @@ restore
 
 
 ************************************************************************
-**## 5f - Uganda
+**## 6f - Uganda
 ************************************************************************
 
 	
@@ -1514,7 +1585,7 @@ restore
 	
 
 ************************************************************************
-**# 6 - end matter
+**# 7 - end matter
 ************************************************************************
 
 * close the log
