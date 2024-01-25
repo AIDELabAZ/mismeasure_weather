@@ -79,6 +79,8 @@
 levelsof varname, local(varrain)
 foreach i of local varrain {
 
+*this is a test
+
 keep if `i' < 15
 *** generating blank graphs for temperature - need to fix 
 
