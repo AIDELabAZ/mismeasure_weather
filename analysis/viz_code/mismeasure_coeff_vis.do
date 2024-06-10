@@ -43,8 +43,6 @@
 * load data 
 	use 			"$root/lsms_complete_results", clear
 	
-* keep HH Bilinear - true hh coordinates 
-	keep			if ext == 1
 	
 *generate different betas based on signficance
 	gen 			b_sig = beta
@@ -139,7 +137,7 @@ preserve
 						*** need to cut gap between Niger and Malawi 
 						*** and why not alphabetical 
 				
-graph export 	"$xfig\v_`i'_reg3.pdf", as(pdf) replace
+graph export 	"$xfig/v_`i'_reg3.pdf", as(pdf) replace
 restore
 }
 		
@@ -147,14 +145,14 @@ restore
 ************************************************************************
 **# 3 - generate specification chart for mean rainfall
 ************************************************************************		
-	
+
 ************************************************************************
 **## 3a - ethiopia
 ************************************************************************
-	
+
 preserve
 	keep			if varname == 1 & country == 1 & regname < 4
-	sort 			regname sat beta
+	sort 			regname beta
 	gen 			obs = _n
 
 * stack values of the specification indicators
@@ -187,22 +185,33 @@ preserve
 						10 "CHIRPS" 11 "CPC" 12 "MERRA-2" 13 "ARC2" 14 "ERA5" ///
 						15 "TAMSAT" 16 "*{bf:Weather Product}*" 23 " ", ///
 						angle(0) labsize(vsmall) tstyle(notick)) || ///
-						(scatter b_ns obs, yaxis(2) mcolor(black%75) ylab(, ///
-						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						(scatter k3 obs if b_sig != . & beta > 0, ///
+						msize(small small) mcolor(edkblue) msymbol(d)) || ///
+						(scatter k3 obs if b_sig != . & beta < 0, ///
+						msize(small small) mcolor(maroon) msymbol(d)) || ///
+						(scatter b_ns obs, yaxis(2) mcolor(black%75) msymbol(Th) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
 						range($from_y $bmax ) axis(2)) ) || ///
-						(scatter b_sig obs, yaxis(2) mcolor(edkblue%75) ylab(, ///
-						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						(scatter b_sig obs if beta > 0, yaxis(2) mcolor(edkblue%75) msymbol(+) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						range($from_y $bmax ) axis(2)) ) || ///
+						(scatter b_sig obs if beta < 0, yaxis(2) mcolor(maroon%75) msymbol(+) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
 						range($from_y $bmax ) axis(2)) ) || ///
 						(rbar ci_lo ci_up obs if b_sig == ., ///
 						barwidth(.2) color(black%50) yaxis(2) ) || ///
-						(rbar ci_lo ci_up obs if b_sig != ., ///
+						(rbar ci_lo ci_up obs if b_sig != . & beta < 0, ///
+						barwidth(.2) color(maroon%50) yaxis(2) ) || ///
+						(rbar ci_lo ci_up obs if b_sig != . & beta > 0, ///
 						barwidth(.2) color(edkblue%50) yaxis(2)  ///
-						yline(0, lcolor(maroon) axis(2) lstyle(solid) ) ), ///
-						legend(order(4 5) cols(2) size(small) rowgap(.5) pos(12)) 	///
-						saving("$sfig/v01_cty1", replace)
+						yline(0, lcolor(maroon) axis(2) lstyle(solid) ) ///
+						xline(12.5, lcolor(black) lstyle(solid)) ///
+						xline(24.5, lcolor(black) lstyle(solid)) ), ///
+						legend(order(8 6 7) cols(3) size(small) rowgap(.5) pos(12)) 
 				
-*graph export 	"$xfig\v01_cty1.pdf", as(pdf) replace
+	graph export 	"$xfig\v01_cty1.pdf", as(pdf) replace
 restore
+	
 
 
 ************************************************************************
@@ -211,7 +220,7 @@ restore
 	
 preserve
 	keep			if varname == 1 & country == 2 & regname < 4
-	sort 			beta
+	sort 			regname beta
 	gen 			obs = _n
 
 * stack values of the specification indicators
@@ -244,25 +253,35 @@ preserve
 						10 "CHIRPS" 11 "CPC" 12 "MERRA-2" 13 "ARC2" 14 "ERA5" ///
 						15 "TAMSAT" 16 "*{bf:Weather Product}*" 23 " ", ///
 						angle(0) labsize(vsmall) tstyle(notick)) || ///
-						(scatter b_ns obs, yaxis(2) mcolor(black%75) ylab(, ///
-						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						(scatter k3 obs if b_sig != . & beta > 0, ///
+						msize(small small) mcolor(edkblue) msymbol(d)) || ///
+						(scatter k3 obs if b_sig != . & beta < 0, ///
+						msize(small small) mcolor(maroon) msymbol(d)) || ///
+						(scatter b_ns obs, yaxis(2) mcolor(black%75) msymbol(Th) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
 						range($from_y $bmax ) axis(2)) ) || ///
-						(scatter b_sig obs, yaxis(2) mcolor(edkblue%75) ylab(, ///
-						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						(scatter b_sig obs if beta > 0, yaxis(2) mcolor(edkblue%75) msymbol(+) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						range($from_y $bmax ) axis(2)) ) || ///
+						(scatter b_sig obs if beta < 0, yaxis(2) mcolor(maroon%75) msymbol(+) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
 						range($from_y $bmax ) axis(2)) ) || ///
 						(rbar ci_lo ci_up obs if b_sig == ., ///
 						barwidth(.2) color(black%50) yaxis(2) ) || ///
-						(rbar ci_lo ci_up obs if b_sig != ., ///
+						(rbar ci_lo ci_up obs if b_sig != . & beta < 0, ///
+						barwidth(.2) color(maroon%50) yaxis(2) ) || ///
+						(rbar ci_lo ci_up obs if b_sig != . & beta > 0, ///
 						barwidth(.2) color(edkblue%50) yaxis(2)  ///
-						yline(0, lcolor(maroon) axis(2) lstyle(solid) ) ), ///
-						legend(order(4 5) cols(2) size(small) rowgap(.5) pos(12)) 	///
-						saving("$sfig/v01_cty2", replace)
+						yline(0, lcolor(maroon) axis(2) lstyle(solid) ) ///
+						xline(12.5, lcolor(black) lstyle(solid)) ///
+						xline(24.5, lcolor(black) lstyle(solid)) ), ///
+						legend(order(8 6 7) cols(3) size(small) rowgap(.5) pos(12)) 
 				
 	graph export 	"$xfig\v01_cty2.pdf", as(pdf) replace
 restore
 
 
-************************************************************************
+/************************************************************************
 **## 3c - Niger
 ************************************************************************
 	
@@ -318,15 +337,14 @@ preserve
 	graph export 	"$xfig\v01_cty4.pdf", as(pdf) replace
 restore
 
-
+*/
 ************************************************************************
 **## 3d - Nigeria
 ************************************************************************
 
-	
 preserve
 	keep			if varname == 1 & country == 5 & regname < 4
-	sort 			beta
+	sort 			regname beta
 	gen 			obs = _n
 
 * stack values of the specification indicators
@@ -359,19 +377,29 @@ preserve
 						10 "CHIRPS" 11 "CPC" 12 "MERRA-2" 13 "ARC2" 14 "ERA5" ///
 						15 "TAMSAT" 16 "*{bf:Weather Product}*" 23 " ", ///
 						angle(0) labsize(vsmall) tstyle(notick)) || ///
-						(scatter b_ns obs, yaxis(2) mcolor(black%75) ylab(, ///
-						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						(scatter k3 obs if b_sig != . & beta > 0, ///
+						msize(small small) mcolor(edkblue) msymbol(d)) || ///
+						(scatter k3 obs if b_sig != . & beta < 0, ///
+						msize(small small) mcolor(maroon) msymbol(d)) || ///
+						(scatter b_ns obs, yaxis(2) mcolor(black%75) msymbol(Th) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
 						range($from_y $bmax ) axis(2)) ) || ///
-						(scatter b_sig obs, yaxis(2) mcolor(edkblue%75) ylab(, ///
-						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						(scatter b_sig obs if beta > 0, yaxis(2) mcolor(edkblue%75) msymbol(+) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						range($from_y $bmax ) axis(2)) ) || ///
+						(scatter b_sig obs if beta < 0, yaxis(2) mcolor(maroon%75) msymbol(+) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
 						range($from_y $bmax ) axis(2)) ) || ///
 						(rbar ci_lo ci_up obs if b_sig == ., ///
 						barwidth(.2) color(black%50) yaxis(2) ) || ///
-						(rbar ci_lo ci_up obs if b_sig != ., ///
+						(rbar ci_lo ci_up obs if b_sig != . & beta < 0, ///
+						barwidth(.2) color(maroon%50) yaxis(2) ) || ///
+						(rbar ci_lo ci_up obs if b_sig != . & beta > 0, ///
 						barwidth(.2) color(edkblue%50) yaxis(2)  ///
-						yline(0, lcolor(maroon) axis(2) lstyle(solid) ) ), ///
-						legend(order(4 5) cols(2) size(small) rowgap(.5) pos(12)) 	///
-						saving("$sfig/v01_cty5", replace)
+						yline(0, lcolor(maroon) axis(2) lstyle(solid) ) ///
+						xline(12.5, lcolor(black) lstyle(solid)) ///
+						xline(24.5, lcolor(black) lstyle(solid)) ), ///
+						legend(order(8 6 7) cols(3) size(small) rowgap(.5) pos(12)) 
 				
 	graph export 	"$xfig\v01_cty5.pdf", as(pdf) replace
 restore
@@ -383,7 +411,7 @@ restore
 
 preserve
 	keep			if varname == 1 & country == 6 & regname < 4
-	sort 			beta
+	sort 			regname beta
 	gen 			obs = _n
 
 * stack values of the specification indicators
@@ -416,19 +444,29 @@ preserve
 						10 "CHIRPS" 11 "CPC" 12 "MERRA-2" 13 "ARC2" 14 "ERA5" ///
 						15 "TAMSAT" 16 "*{bf:Weather Product}*" 23 " ", ///
 						angle(0) labsize(vsmall) tstyle(notick)) || ///
-						(scatter b_ns obs, yaxis(2) mcolor(black%75) ylab(, ///
-						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						(scatter k3 obs if b_sig != . & beta > 0, ///
+						msize(small small) mcolor(edkblue) msymbol(d)) || ///
+						(scatter k3 obs if b_sig != . & beta < 0, ///
+						msize(small small) mcolor(maroon) msymbol(d)) || ///
+						(scatter b_ns obs, yaxis(2) mcolor(black%75) msymbol(Th) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
 						range($from_y $bmax ) axis(2)) ) || ///
-						(scatter b_sig obs, yaxis(2) mcolor(edkblue%75) ylab(, ///
-						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						(scatter b_sig obs if beta > 0, yaxis(2) mcolor(edkblue%75) msymbol(+) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						range($from_y $bmax ) axis(2)) ) || ///
+						(scatter b_sig obs if beta < 0, yaxis(2) mcolor(maroon%75) msymbol(+) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
 						range($from_y $bmax ) axis(2)) ) || ///
 						(rbar ci_lo ci_up obs if b_sig == ., ///
 						barwidth(.2) color(black%50) yaxis(2) ) || ///
-						(rbar ci_lo ci_up obs if b_sig != ., ///
+						(rbar ci_lo ci_up obs if b_sig != . & beta < 0, ///
+						barwidth(.2) color(maroon%50) yaxis(2) ) || ///
+						(rbar ci_lo ci_up obs if b_sig != . & beta > 0, ///
 						barwidth(.2) color(edkblue%50) yaxis(2)  ///
-						yline(0, lcolor(maroon) axis(2) lstyle(solid) ) ), ///
-						legend(order(4 5) cols(2) size(small) rowgap(.5) pos(12)) 	///
-						saving("$sfig/v01_cty6", replace)
+						yline(0, lcolor(maroon) axis(2) lstyle(solid) ) ///
+						xline(12.5, lcolor(black) lstyle(solid)) ///
+						xline(24.5, lcolor(black) lstyle(solid)) ), ///
+						legend(order(8 6 7) cols(3) size(small) rowgap(.5) pos(12)) 
 				
 	graph export 	"$xfig\v01_cty6.pdf", as(pdf) replace
 restore
@@ -438,10 +476,9 @@ restore
 **## 3f - Uganda
 ************************************************************************
 
-	
 preserve
 	keep			if varname == 1 & country == 7 & regname < 4
-	sort 			beta
+	sort 			regname beta
 	gen 			obs = _n
 
 * stack values of the specification indicators
@@ -474,19 +511,29 @@ preserve
 						10 "CHIRPS" 11 "CPC" 12 "MERRA-2" 13 "ARC2" 14 "ERA5" ///
 						15 "TAMSAT" 16 "*{bf:Weather Product}*" 23 " ", ///
 						angle(0) labsize(vsmall) tstyle(notick)) || ///
-						(scatter b_ns obs, yaxis(2) mcolor(black%75) ylab(, ///
-						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						(scatter k3 obs if b_sig != . & beta > 0, ///
+						msize(small small) mcolor(edkblue) msymbol(d)) || ///
+						(scatter k3 obs if b_sig != . & beta < 0, ///
+						msize(small small) mcolor(maroon) msymbol(d)) || ///
+						(scatter b_ns obs, yaxis(2) mcolor(black%75) msymbol(Th) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
 						range($from_y $bmax ) axis(2)) ) || ///
-						(scatter b_sig obs, yaxis(2) mcolor(edkblue%75) ylab(, ///
-						axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						(scatter b_sig obs if beta > 0, yaxis(2) mcolor(edkblue%75) msymbol(+) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
+						range($from_y $bmax ) axis(2)) ) || ///
+						(scatter b_sig obs if beta < 0, yaxis(2) mcolor(maroon%75) msymbol(+) ///
+						ylab(,axis(2) labsize(vsmall) angle(0) ) yscale( ///
 						range($from_y $bmax ) axis(2)) ) || ///
 						(rbar ci_lo ci_up obs if b_sig == ., ///
 						barwidth(.2) color(black%50) yaxis(2) ) || ///
-						(rbar ci_lo ci_up obs if b_sig != ., ///
+						(rbar ci_lo ci_up obs if b_sig != . & beta < 0, ///
+						barwidth(.2) color(maroon%50) yaxis(2) ) || ///
+						(rbar ci_lo ci_up obs if b_sig != . & beta > 0, ///
 						barwidth(.2) color(edkblue%50) yaxis(2)  ///
-						yline(0, lcolor(maroon) axis(2) lstyle(solid) ) ), ///
-						legend(order(4 5) cols(2) size(small) rowgap(.5) pos(12)) 	///
-						saving("$sfig/v01_cty7", replace)
+						yline(0, lcolor(maroon) axis(2) lstyle(solid) ) ///
+						xline(12.5, lcolor(black) lstyle(solid)) ///
+						xline(24.5, lcolor(black) lstyle(solid)) ), ///
+						legend(order(8 6 7) cols(3) size(small) rowgap(.5) pos(12)) 
 				
 	graph export 	"$xfig\v01_cty7.pdf", as(pdf) replace
 restore
