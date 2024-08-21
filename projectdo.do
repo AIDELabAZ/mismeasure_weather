@@ -1,7 +1,7 @@
 * Project: WB Weather
 * Created on: May 2020
 * Created by: jdm
-* Stata v.18.0
+* Stata v.18.5
 
 * does
 	* establishes an identical workspace between users
@@ -25,7 +25,7 @@
 	global 			pack 	0
 		
 * Specify Stata version in use
-    global stataVersion 18.0    // set Stata version
+    global stataVersion 18.5    // set Stata version
     version $stataVersion
 
 * **********************************************************************
@@ -42,22 +42,7 @@ if `"`c(username)'"' == "annal" {
         global 		code  	"C:/Users/aljosephson/git/weather_and_agriculture"
 		global 		data	"C:/Users/aljosephson/OneDrive - University of Arizona/weather_and_agriculture"
     }	
-if `"`c(username)'"' == "rodrigoguerra" {
-        global 		code  	"/Users/rodrigoguerra/Library/CloudStorage/OneDrive-UniversityofArizona/Documents/GitHub/weather_and_agriculture"
-		global 		data	"/Users/rodrigoguerra/Library/CloudStorage/OneDrive-UniversityofArizona/weather_and_agriculture" 
-    }
-if `"`c(username)'"' == "fvkrysbackpackpc" {
-        global 		code  	"/Users/fvkrysbackpackpc/Documents/GitHub/weather_and_agriculture"
-		global 		data	"/Users/fvkrysbackpackpc/Library/CloudStorage/OneDrive-UniversityofArizona/weather_and_agriculture"	
-    }
-if `"`c(username)'"' == "yetfl" {
-        global 		code  	"C:/Users/yetfl/OneDrive/Desktop/GitHub/weather_and_agriculture"
-		global 		data	"C:/Users/yetfl/OneDrive - University of Arizona/weather_and_agriculture"
-    }
-if `"`c(username)'"' == "rbrnhm" {
-        global 		code  	"C:/Users/rbrnhm/GitHub/weather_and_agriculture"
-		global 		data	"C:/Users/rbrnhm/OneDrive - University of Arizona/weather_and_agriculture"
-    }	
+
 
 * **********************************************************************
 * 0 (b) - Check if any required packages are installed:
@@ -67,7 +52,7 @@ if `"`c(username)'"' == "rbrnhm" {
 if $pack == 1 {
 	
 	* for packages/commands, make a local containing any required packages
-		loc userpack "blindschemes mdesc estout distinct winsor2" 
+		loc userpack "blindschemes mdesc estout distinct winsor2 bumpline colrspace" 
 	
 	* install packages that are on ssc	
 		foreach package in `userpack' {
