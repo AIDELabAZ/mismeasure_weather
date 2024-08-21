@@ -14,7 +14,7 @@
 	* access to all data and code
 
 * TO DO:
-	* complete
+	* add run time 
 
 * **********************************************************************
 * 0 - setup
@@ -42,7 +42,6 @@
 		global 		data	"C:/Users/aljosephson/OneDrive - University of Arizona/weather_project"
     }
 	
-	
 * **********************************************************************
 * 0 (b) - Check if any required packages are installed:
 * **********************************************************************
@@ -50,11 +49,8 @@
 * install packages if global is set to 1
 if $pack == 1 {
 	
-	* temporarily set delimiter to ; so can break the line
-		#delimit ;
 	* for packages/commands, make a local containing any required packages
-		loc userpack "blindschemes mdesc estout distinct winsor2" ;
-		#delimit cr
+		loc userpack "blindschemes mdesc estout distinct winsor2" 
 	
 	* install packages that are on ssc	
 		foreach package in `userpack' {
@@ -75,15 +71,11 @@ if $pack == 1 {
 
 	* install -xfill- package
 		net install xfill, replace from(https://www.sealedenvelope.com/)
-		
-	* install -customsave package
-		net install StataConfig, ///
-		from(https://raw.githubusercontent.com/etjernst/Materials/master/stata/) replace
 
 	* install -weather- package
 		net install WeatherConfig, ///
 		from(https://jdavidm.github.io/) replace
-	
+
 	* update all ado files
 		ado update, update
 
@@ -124,13 +116,11 @@ if $pack == 1 {
 	do 			"$code/uganda/household_code/uga_hh_masterdo.do"
 */
 
-
 * **********************************************************************
-* 3 - build cross-country household panel data set
+* 2 - run analysis .do files
 * **********************************************************************
 /*
 	do			"$code/analysis/reg_code/panel_build.do"
-
 
 * **********************************************************************
 * 4 - run regression .do files
@@ -152,4 +142,3 @@ if $pack == 1 {
 	do			"$code/analysis/viz_code/coeff_vis.do"
 	do			"$code/analysis/viz_code/coeff_lc_vis.do"
 	do			"$code/analysis/viz_code/coeff_mc_vis.do"
-*/
