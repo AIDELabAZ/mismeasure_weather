@@ -84,32 +84,32 @@ label values reg_num reg_name
 
 bumpline beta reg_num if country == 1, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	xtitle("Ethiopia") ytitle("Coefficient Rank") ///
+	xtitle("Ethiopia") ytitle("Coefficient Rank") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/eth_v5_bump", replace)
 
 bumpline beta reg_num if country == 2, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	xtitle("Malawi") ytitle("") ///
+	xtitle("Malawi") ytitle("") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/mwi_v5_bump", replace)
 
 bumpline beta reg_num if country == 4, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	xtitle("Niger") ytitle("") ///
+	xtitle("Niger") ytitle("") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/ngr_v5_bump", replace)
 
 bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	xtitle("Nigeria") ytitle("") ///
+	xtitle("Nigeria") ytitle("") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/nga_v5_bump", replace)
 
 bumpline beta reg_num if country == 6, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	xtitle("Tanzania") ytitle("") ///
+	xtitle("Tanzania") ytitle("") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/tza_v5_bump", replace)
 
 bumpline beta reg_num if country == 7, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	xtitle("Uganda") ytitle("") ///
+	xtitle("Uganda") ytitle("") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/uga_v5_bump", replace)
 	
 
