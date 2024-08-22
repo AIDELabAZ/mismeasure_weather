@@ -51,6 +51,77 @@ lab define 	sat 3 "CPC" 4 "ERA5" 5 "MERRA-2", modify
 
 *** TOTAL SEASONAL RAINFALL ***
 
+
+preserve
+keep if			varname == 5
+keep if			regname < 4
+
+sort country regname depvar varname sat
+
+egen reg_num = group(country regname depvar)
+
+replace reg_num = reg_num + 1 if country > 1
+replace reg_num = reg_num + 1 if country > 2
+replace reg_num = reg_num + 1 if country > 3
+replace reg_num = reg_num + 1 if country > 4
+replace reg_num = reg_num + 1 if country > 5
+replace reg_num = reg_num + 1 if country > 6
+
+lab define 		reg_name 1 "W, Qty" 2 "W, V" 3 "W + FE, Qty" ///
+					4 "W + FE, Val" 5 "W + FE + I, Qty" 6 "W + FE + I, Val" ///
+					8 "W, Qty" 9 "W, Val" 10 "W+  FE, Qty" ///
+					11 "W + FE, Val" 12 "W + FE + I, Qty" 13 "W + FE + I, Val" ///
+					16 "W, Qty" 17 "W, Val" 18 "W + FE, Qty" ///
+					19 "W + FE, Val" 20 "W + FE + I, Qty" 21 "W + FE + I, Val" ///
+					23 "W, Qty" 24 "W, Val" 25 "W + FE, Qty" ///
+					26 "W + FE, Val" 27 "W + FE + I, Qty" 28 "W + FE + I, Val" ///
+					30 "W, Qty" 31 "W, Val" 32 "W + FE, Qty" ///
+					33 "W + FE, Val" 34 "W + FE + I, Qty" 34 "W + FE + I, Val" ///
+					37 "W, Qty" 38 "W, Val" 39 "W + FE, Qty" ///
+					40 "W + FE, Val" 41 "W + FE + I, Qty" 42 "W + FE + I, Val", replace
+					
+label values reg_num reg_name
+
+bumpline beta reg_num if country == 1, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	xtitle("Ethiopia") ytitle("Coefficient Rank") ///
+	xlab(, valuelabel angle(45)) saving("$sfig/eth_v5_bump", replace)
+
+bumpline beta reg_num if country == 2, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	xtitle("Malawi") ytitle("") ///
+	xlab(, valuelabel angle(45)) saving("$sfig/mwi_v5_bump", replace)
+
+bumpline beta reg_num if country == 4, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	xtitle("Niger") ytitle("") ///
+	xlab(, valuelabel angle(45)) saving("$sfig/ngr_v5_bump", replace)
+
+bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	xtitle("Nigeria") ytitle("") ///
+	xlab(, valuelabel angle(45)) saving("$sfig/nga_v5_bump", replace)
+
+bumpline beta reg_num if country == 6, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	xtitle("Tanzania") ytitle("") ///
+	xlab(, valuelabel angle(45)) saving("$sfig/tza_v5_bump", replace)
+
+bumpline beta reg_num if country == 7, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	xtitle("Uganda") ytitle("") ///
+	xlab(, valuelabel angle(45)) saving("$sfig/uga_v5_bump", replace)
+	
+
+restore
+
+	gr combine 		"$sfig/eth_v5_bump.gph" "$sfig/mwi_v5_bump.gph" "$sfig/ngr_v5_bump.gph" ///
+						"$sfig/nga_v5_bump.gph" "$sfig/tza_v5_bump.gph" "$sfig/uga_v5_bump.gph", ///
+						col(6) iscale(.5) commonscheme
+						
+	graph export 	"$xfig\v5_bump.png", as(png) replace
+	
+/*
 preserve
 keep if			varname == 5
 keep if			regname < 4
