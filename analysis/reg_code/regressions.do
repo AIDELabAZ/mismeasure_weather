@@ -1,12 +1,12 @@
 * Project: WB Weather
 * Created on: September 2020
 * Created by: jdm
-* Edited on: 23 May 2024
+* Edited on: 11 Dec 2024
 * Edited by: jdm
 * Stata v.18
 
 * does
-	* NOTE IT TAKES 25 MIN TO RUN ALL REGRESSIONS
+	* NOTE IT TAKES 7 MIN TO RUN ALL REGRESSIONS
 	* loads multi country data set
 	* runs rainfall and temperature regressions
 	* outputs results file for analysis
@@ -23,9 +23,9 @@
 * **********************************************************************
 
 * define paths
-	global		source	 	"$data/regression_data"
-	global		results   	"$data/results_data"
-	global		logout 	 	"$data/regression_data/logs"
+	global		source	 	"$data/mismeasure_weather_data/regression_data"
+	global		results   	"$data/mismeasure_weather_data/results_data"
+	global		logout 	 	"$data/mismeasure_weather_data/regression_data/logs"
 
 * open log	
 	cap log 	close
@@ -45,8 +45,6 @@
 * **********************************************************************
 
 * create locals for total farm and just for maize
-	loc 	inputscp 	lncp_lab lncp_frt cp_pst cp_hrb cp_irr
-	loc		inputstf 	lntf_lab lntf_frt tf_pst tf_hrb tf_irr
 	loc		weather 	v*
 
 * create file to post results to
@@ -83,30 +81,6 @@ foreach l of local levels {
 						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
 						(`=e(ll)') (`=e(df_r)') (`=e(N)')
 
-		* weather and inputs and fe
-			xtreg 		lntf_yld `v' `inputstf' i.year if country == `l', fe vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("tf") ("reg3") ///
-						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
-						(`=e(ll)') (`=e(df_r)') (`=e(N)')
-			
-		* weather and squared weather
-			reg 		lntf_yld c.`v'##c.`v' if country == `l', vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("tf") ("reg4") ///
-						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
-						(`=e(ll)') (`=e(df_r)') (`=e(N)')
-		
-		* weather and squared weather and fe
-			xtreg 		lntf_yld c.`v'##c.`v' i.year if country == `l', fe vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("tf") ("reg5") ///
-						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
-						(`=e(ll)') (`=e(df_r)') (`=e(N)')
-		
-		* weather and squared weather and inputs and fe
-			xtreg 		lntf_yld c.`v'##c.`v' `inputstf' i.year if country == `l', fe vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("tf") ("reg6") ///
-						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
-						(`=e(ll)') (`=e(df_r)') (`=e(N)')
-
 		* 2.2: Quantity of Maize
 		
 		* weather
@@ -120,31 +94,6 @@ foreach l of local levels {
 			post 		`reg_results' (`l') ("`sat'") ("cp") ("reg2") ///
 						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
 						(`=e(ll)') (`=e(df_r)') (`=e(N)')
-
-		* weather and inputs and fe
-			xtreg 		lncp_yld `v' `inputscp' i.year if country == `l', fe vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("cp") ("reg3") ///
-						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
-						(`=e(ll)') (`=e(df_r)') (`=e(N)')
-			
-		* weather and squared weather
-			reg 		lncp_yld c.`v'##c.`v' if country == `l', vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("cp") ("reg4") ///
-						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
-						(`=e(ll)') (`=e(df_r)') (`=e(N)')
-		
-		* weather and squared weather and fe
-			xtreg 		lncp_yld c.`v'##c.`v' i.year if country == `l', fe vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("cp") ("reg5") ///
-						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
-						(`=e(ll)') (`=e(df_r)') (`=e(N)')
-		
-		* weather and squared weather and inputs and fe
-			xtreg 		lncp_yld c.`v'##c.`v' `inputscp' i.year if country == `l', fe vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("cp") ("reg6") ///
-						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
-						(`=e(ll)') (`=e(df_r)') (`=e(N)')
-
 	}
 }
 
