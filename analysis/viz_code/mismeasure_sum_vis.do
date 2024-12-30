@@ -22,12 +22,12 @@
 * **********************************************************************
 
 * define paths
-	global	root 	= 	"$data/regression_data"
-	global	stab 	= 	"$data/results_data/tables"
-	global	xtab 	= 	"$data/output/mismeasure_paper/tables"
-	global	sfig	= 	"$data/results_data/figures"	
-	global 	xfig    =   "$data/output/mismeasure_paper/figures"
-	global	logout 	= 	"$data/results_data/logs"
+	global	root 	= 	"$data/mismeasure_weather_data/regression_data"
+	global	stab 	= 	"$data/mismeasure_weather_data/results_data/tables"
+	global	xtab 	= 	"$data/mismeasure_weather_data/paper/tables"
+	global	sfig	= 	"$data/mismeasure_weather_data/results_data/figures"	
+	global 	xfig    =   "$data/mismeasure_weather_data/paper/figures"
+	global	logout 	= 	"$data/mismeasure_weather_data/results_data/logs"
 	* s indicates Stata figures, works in progress
 	* x indicates final version for paper
 
