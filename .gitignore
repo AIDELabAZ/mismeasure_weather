@@ -16,3 +16,5 @@
 *.DS_Store
 *.Rhistory
 
+ethiopia/household_code/wave_1/~2011_sect11_ph_w1.do.stswp
+*.stswp
