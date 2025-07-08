@@ -16,12 +16,11 @@
 
 * assumes
 	* all Malawi data has been cleaned and merged with rainfall
-	* customsave.ado
+	* Extracted "long panel frame" (provided by Thomas Bentze)
 	* xfill.ado
 
 * TO DO:
-	* need to sort out short panel
-	* left off at building panel
+	* complete
 	
 	
 * **********************************************************************
@@ -581,7 +580,7 @@ foreach var of varlist v15_merra - v27_merra {
 	foreach v of varlist `v27' {
 		lab var 		`v' "Temperature Bin 80-100"	
 	}
-					
+	
 * create household, country, and data identifiers
 	egen			mwi_id = group(cx_id)
 	sum				mwi_id
@@ -597,6 +596,13 @@ foreach var of varlist v15_merra - v27_merra {
 	
 	egen			uid = seq()
 	lab var			uid "unique id"
+	
+	drop			cx2 cx1 sp2 sp1_id sp1 lp1_id hhweightR1 lp1 urbanR2 ///
+						urbanR1 strataR1 strataR2 hhweightR2 splitoffR2 ///
+						tracking_R1_to_R2 distance_R1_to_R2 lp2 urbanR3 ///
+						strataR3 hhweightR3 mover_R1R2R3 location_R2_to_R3 ///
+						distance_R1_to_R3 distance_R2_to_R3 lp3 reside hh_wgt ///
+						HHID _hh lp4 lpid wave y4_hhid hh_id_obs cx1_id case_id
 	
 * order variables
 	order			uid mwi_id

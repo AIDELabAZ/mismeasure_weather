@@ -1,7 +1,7 @@
 * Project: Mismeasure Weather
 * Created on: January 2024
 * Created by: jdm
-* Stata v.18.0
+* Stata v.18.5
 
 * does
 	* establishes an identical workspace between users
@@ -32,6 +32,7 @@
 * **********************************************************************
 
 * Define root folder globals
+
     if `"`c(username)'"' == "jdmichler" {
         global 		code  	"C:/Users/jdmichler/git/AIDELabAZ/mismeasure_weather"
 		global 		data	"C:/Users/jdmichler/OneDrive - University of Arizona/weather_project"
@@ -41,7 +42,7 @@
         global 		code  	"C:/Users/aljos/git/mismeasure_weather"
 		global 		data	"C:/Users/aljos/OneDrive - University of Arizona/weather_and_agriculture/mismeasure_weather_data"
 	}
-	
+
 * **********************************************************************
 * 0 (b) - Check if any required packages are installed:
 * **********************************************************************
@@ -50,7 +51,7 @@
 if $pack == 1 {
 	
 	* for packages/commands, make a local containing any required packages
-		loc userpack "blindschemes mdesc estout distinct winsor2" 
+		loc userpack "blindschemes mdesc estout distinct winsor2 bumpline colrspace" 
 	
 	* install packages that are on ssc	
 		foreach package in `userpack' {
@@ -117,7 +118,14 @@ if $pack == 1 {
 */
 
 * **********************************************************************
-* 2 - run analysis .do files
+* 4 - run panel build and regression .do files
+* **********************************************************************
+/*
+	do			"$code/analysis/panel_build.do"
+	do			"$code/analysis/regressions.do"
+*/
+* **********************************************************************
+* 4 - run analysis .do files
 * **********************************************************************
 /*
 	do			"$code/analysis/reg_code/panel_build.do"
