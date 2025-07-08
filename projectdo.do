@@ -1,5 +1,5 @@
-* Project: WB Weather
-* Created on: May 2020
+* Project: Mismeasure Weather
+* Created on: January 2024
 * Created by: jdm
 * Stata v.18.5
 
@@ -15,7 +15,6 @@
 
 * TO DO:
 	* add run time 
-
 
 * **********************************************************************
 * 0 - setup
@@ -34,15 +33,15 @@
 
 * Define root folder globals
 
-if `"`c(username)'"' == "jdmichler" {
-        global 		code  	"C:/Users/jdmichler/git/AIDELabAZ/weather_and_agriculture"
-		global 		data	"C:/Users/jdmichler/OneDrive - University of Arizona/weather_and_agriculture"
+    if `"`c(username)'"' == "jdmichler" {
+        global 		code  	"C:/Users/jdmichler/git/AIDELabAZ/mismeasure_weather"
+		global 		data	"C:/Users/jdmichler/OneDrive - University of Arizona/weather_project"
     }
-if `"`c(username)'"' == "annal" {
-        global 		code  	"C:/Users/aljosephson/git/weather_and_agriculture"
-		global 		data	"C:/Users/aljosephson/OneDrive - University of Arizona/weather_and_agriculture"
-    }	
-
+	
+	if `"`c(username)'"' == "aljos" {
+        global 		code  	"C:/Users/aljos/git/mismeasure_weather"
+		global 		data	"C:/Users/aljos/OneDrive - University of Arizona/weather_and_agriculture/mismeasure_weather_data"
+	}
 
 * **********************************************************************
 * 0 (b) - Check if any required packages are installed:
@@ -129,6 +128,21 @@ if $pack == 1 {
 * 4 - run analysis .do files
 * **********************************************************************
 /*
+	do			"$code/analysis/reg_code/panel_build.do"
+
+* **********************************************************************
+* 4 - run regression .do files
+* **********************************************************************
+
+	do			"$code/analysis/reg_code/regressions.do"
+	do			"$code/analysis/reg_code/regressions-linear-combo.do"
+	do			"$code/analysis/reg_code/regressions-multi-combo.do"
+
+
+* **********************************************************************
+* 5 - run analysis .do files
+* **********************************************************************
+
 	do			"$code/analysis/viz_code/sum_table.do"
 	do			"$code/analysis/viz_code/sum_vis.do"
 	do			"$code/analysis/viz_code/r2_vis.do"
@@ -136,4 +150,3 @@ if $pack == 1 {
 	do			"$code/analysis/viz_code/coeff_vis.do"
 	do			"$code/analysis/viz_code/coeff_lc_vis.do"
 	do			"$code/analysis/viz_code/coeff_mc_vis.do"
-*/
