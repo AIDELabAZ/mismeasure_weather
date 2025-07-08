@@ -1,6 +1,6 @@
 # The Mismeasure of Weather: Using Earth Observation Data for Estimation of Socioeconomic Outcomes
 
-This README describes the directory structure and code used in the paper "[The Mismeasure of Weather: Using Earth Observation Data for Estimation of Socioeconomic Outcomes][1]." Because the weather data contains confidential information, it is not publically available. This means that the weather code will not function, as that data is held by the World Bank. Without the weather data, the results cannot be replicated from raw data through the cleaning to final analysis. Rather, the data and code in the `analysis` folder allows a user to analyze the output of all the regressions specified in the [pre-analysis plan on OSF][3]. This allows the user to reproduce all results tables and figures in the published paper plus explore the results on their own. The household cleaning code can be used to clean the agriculture modules in the [LSMS-ISA data][2]. Contact Drs. Jeffrey D. Michler or Anna Josephson and they can share an intermediate, de-identified version of the weather data for use in replicating the results.
+This README describes the directory structure and code used in the paper "[The Mismeasure of Weather: Using Earth Observation Data for Estimation of Socioeconomic Outcomes][1]." Because the weather data contains confidential information, it is not publically available. This means that the weather code will not function, as that data is held by the World Bank. Without the weather data, the results cannot be replicated from raw data through the cleaning to final analysis. Rather, the data and code in the `analysis` folder allows a user to analyze the output of all the regressions specified in the [pre-analysis plan on OSF][3]. This allows the user to reproduce all results tables and figures in the published paper plus explore the results on their own. The household cleaning code can be used to clean the agriculture modules in the [LSMS-ISA data][2]. Contact Drs. Anna Josephson or Jeffrey D. Michler and they can share an intermediate, de-identified version of the weather data for use in replicating the results.
 
 [![DOI](https://zenodo.org/badge/510811151.svg)](https://zenodo.org/badge/latestdoi/510811151)
 
@@ -74,6 +74,6 @@ weather_and_agriculture
      └──logs
 ```
 
-  [1]: https://osf.io/8hnz5/
+  [1]: https://doi.org/10.1016/j.jdeveco.2025.103553
   [2]: https://www.worldbank.org/en/programs/lsms/initiatives/lsms-ISA
-  [3]: https://openknowledge.worldbank.org/handle/10986/36643
+  [3]: https://osf.io/8hnz5/
