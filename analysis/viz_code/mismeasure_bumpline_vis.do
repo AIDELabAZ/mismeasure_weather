@@ -3,7 +3,7 @@
 * created by: alj
 * created on: 19 august 2024
 * edited by: jdm
-* edited on: 27 Dec 2024
+* edited on: 8 july 2025
 
 * does
 	* reads in results data set
@@ -103,7 +103,7 @@ bumpline beta reg_num if country == 2, by(sat) top(6) xsize(2) ysize(1) smooth(4
 
 bumpline beta reg_num if country == 4, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	title("Niger") xtitle("") ytitle("") palette(viridis) ///
+	title("Niger") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/ngr_v5_bump", replace)
 
 bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
@@ -113,7 +113,7 @@ bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4
 
 bumpline beta reg_num if country == 6, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	title("Tanzania") xtitle("") ytitle("") palette(viridis) ///
+	title("Tanzania") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/tza_v5_bump", replace)
 
 bumpline beta reg_num if country == 7, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
@@ -172,7 +172,7 @@ bumpline beta reg_num if country == 2, by(sat) top(6) xsize(2) ysize(1) smooth(4
 
 bumpline beta reg_num if country == 4, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	title("Niger") xtitle("") ytitle("") palette(viridis) ///
+	title("Niger") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/ngr_v10_bump", replace)
 
 bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
@@ -182,7 +182,7 @@ bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4
 
 bumpline beta reg_num if country == 6, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	title("Tanzania") xtitle("") ytitle("") palette(viridis) ///
+	title("Tanzania") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/tza_v10_bump", replace)
 
 bumpline beta reg_num if country == 7, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
@@ -249,7 +249,7 @@ bumpline beta reg_num if country == 2, by(sat) top(6) xsize(2) ysize(1) smooth(4
 
 bumpline beta reg_num if country == 4, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	title("Niger") xtitle("") ytitle("") palette(viridis) ///
+	title("Niger") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/ngr_v15_bump", replace)
 
 bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
@@ -259,7 +259,7 @@ bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4
 
 bumpline beta reg_num if country == 6, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	title("Tanzania") xtitle("") ytitle("") palette(viridis) ///
+	title("Tanzania") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/tza_v15_bump", replace)
 
 bumpline beta reg_num if country == 7, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
@@ -317,7 +317,7 @@ bumpline beta reg_num if country == 2, by(sat) top(6) xsize(2) ysize(1) smooth(4
 
 bumpline beta reg_num if country == 4, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	title("Niger") xtitle("") ytitle("") palette(viridis) ///
+	title("Niger") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/ngr_v19_bump", replace)
 
 bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
@@ -327,7 +327,7 @@ bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4
 
 bumpline beta reg_num if country == 6, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-	title("Tanzania") xtitle("") ytitle("") palette(viridis) ///
+	title("Tanzania") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 	xlab(, valuelabel angle(45)) saving("$sfig/tza_v19_bump", replace)
 
 bumpline beta reg_num if country == 7, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
@@ -402,7 +402,7 @@ frame rainfall {
 
 			bumpline beta reg_num if country == 4, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 				lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-				title("Niger") xtitle("") ytitle("") palette(viridis) ///
+				title("Niger") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 				xlab(, valuelabel angle(45)) saving("$sfig/ngr_v`i'_bump", replace)
 
 			bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
@@ -412,7 +412,7 @@ frame rainfall {
 
 			bumpline beta reg_num if country == 6, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 				lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-				title("Tanzania") xtitle("") ytitle("") palette(viridis) ///
+				title("Tanzania") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 				xlab(, valuelabel angle(45)) saving("$sfig/tza_v`i'_bump", replace)
 
 			bumpline beta reg_num if country == 7, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
@@ -481,7 +481,7 @@ frame temperature {
 
 			bumpline beta reg_num if country == 4, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 				lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-				title("Niger") xtitle("") ytitle("") palette(viridis) ///
+				title("Niger") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 				xlab(, valuelabel angle(45)) saving("$sfig/ngr_v`i'_bump", replace)
 
 			bumpline beta reg_num if country == 5, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
@@ -491,7 +491,7 @@ frame temperature {
 
 			bumpline beta reg_num if country == 6, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///
 				lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
-				title("Tanzania") xtitle("") ytitle("") palette(viridis) ///
+				title("Tanzania") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
 				xlab(, valuelabel angle(45)) saving("$sfig/tza_v`i'_bump", replace)
 
 			bumpline beta reg_num if country == 7, by(sat) top(6) xsize(2) ysize(1) smooth(4) ///

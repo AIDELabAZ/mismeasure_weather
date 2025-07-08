@@ -22,7 +22,7 @@
 * **********************************************************************
 
 * set $pack to 0 to skip package installation
-	global 			pack 	0
+	global 			pack 	1
 		
 * Specify Stata version in use
     global stataVersion 18.5    // set Stata version
@@ -34,9 +34,9 @@
 
 * Define root folder globals
 
-if `"`c(username)'"' == "jdmichler" {
-        global 		code  	"C:/Users/jdmichler/git/AIDELabAZ/weather_and_agriculture"
-		global 		data	"C:/Users/jdmichler/OneDrive - University of Arizona/weather_and_agriculture"
+if `"`c(username)'"' == "jdmic" {
+        global 		code  	"C:/Users/jdmic/git/mismeasyre_weather"
+		global 		data	"C:/Users/jdmic/OneDrive - University of Arizona/weather_and_agriculture"
     }
 if `"`c(username)'"' == "annal" {
         global 		code  	"C:/Users/aljosephson/git/weather_and_agriculture"
@@ -52,7 +52,7 @@ if `"`c(username)'"' == "annal" {
 if $pack == 1 {
 	
 	* for packages/commands, make a local containing any required packages
-		loc userpack "blindschemes mdesc estout distinct winsor2 bumpline colrspace" 
+		loc userpack "blindschemes mdesc estout distinct winsor2 bumpline colrspace palettes" 
 	
 	* install packages that are on ssc	
 		foreach package in `userpack' {
@@ -129,11 +129,8 @@ if $pack == 1 {
 * 4 - run analysis .do files
 * **********************************************************************
 /*
-	do			"$code/analysis/viz_code/sum_table.do"
-	do			"$code/analysis/viz_code/sum_vis.do"
-	do			"$code/analysis/viz_code/r2_vis.do"
-	do			"$code/analysis/viz_code/pval_vis.do"
-	do			"$code/analysis/viz_code/coeff_vis.do"
-	do			"$code/analysis/viz_code/coeff_lc_vis.do"
-	do			"$code/analysis/viz_code/coeff_mc_vis.do"
+	do			"$code/analysis/viz_code/mismeasure_sum_table.do"
+	do			"$code/analysis/viz_code/mismeasure_sum_vis.do"
+	do			"$code/analysis/viz_code/mismeasure_bumpline_vis.do"
+	do			"$code/analysis/viz_code/mismeasure_coeff_vis.do"
 */
