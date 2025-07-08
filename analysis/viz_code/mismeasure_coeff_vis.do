@@ -1,8 +1,8 @@
 * Project: WB Weather - mismeasure paper
-* Created on: 4 April 2023
+* Created on: 4 april 2023
 * Created by: jdm
 * Edited by: jdm
-* Last edit: 27 Dec 2024
+* Last edit: 27 december 2024
 * Stata v.18.5
 
 * does

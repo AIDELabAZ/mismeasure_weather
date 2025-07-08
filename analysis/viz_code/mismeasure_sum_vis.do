@@ -1,9 +1,9 @@
-* Project: WB Weather
+* Project: WB Weather - mismeasure paper
 * Created on: September 2020
 * Created by: alj
 * Edited by: jdm
-* Last edit: 18 June 2024 
-* Stata v.18.0 
+* Last edit: 18 june 2024 
+* Stata v.18.5
 
 * does
 	* reads in lsms data set

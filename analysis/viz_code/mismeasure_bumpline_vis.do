@@ -1,9 +1,9 @@
-*** START ***
-* graphs for mismeasure 
-* created by: alj
-* created on: 19 august 2024
-* edited by: jdm
-* edited on: 8 july 2025
+* Project: WB Weather - mismeasure paper
+* Created on: august 2024
+* Created by: alj
+* Edited on: 8 july 2025
+* Edited by: jdm
+* Stata v.18.5
 
 * does
 	* reads in results data set

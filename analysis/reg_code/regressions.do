@@ -1,9 +1,9 @@
-* Project: WB Weather
-* Created on: September 2020
+* Project: WB Weather - mismeasure paper
+* Created on: september 2020
 * Created by: jdm
-* Edited on: 11 Dec 2024
+* Edited on: 11 december 2024
 * Edited by: jdm
-* Stata v.18
+* Stata v.18.5
 
 * does
 	* NOTE IT TAKES 7 MIN TO RUN ALL REGRESSIONS

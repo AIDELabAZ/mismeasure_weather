@@ -1,5 +1,5 @@
-* Project: WB Weather
-* Created on: May 2020
+* Project: WB Weather - mismeasure paper
+* Created on: may 2020
 * Created by: jdm
 * Stata v.18.5
 
@@ -11,7 +11,7 @@
 	* loads any user written packages needed for analysis
 
 * assumes
-	* access to all data and code
+	* access to processed data on Zenodo and code
 
 * TO DO:
 	* add run time 
@@ -22,7 +22,7 @@
 * **********************************************************************
 
 * set $pack to 0 to skip package installation
-	global 			pack 	1
+	global 			pack 	0
 		
 * Specify Stata version in use
     global stataVersion 18.5    // set Stata version
@@ -35,7 +35,7 @@
 * Define root folder globals
 
 if `"`c(username)'"' == "jdmic" {
-        global 		code  	"C:/Users/jdmic/git/mismeasyre_weather"
+        global 		code  	"C:/Users/jdmic/git/mismeasure_weather"
 		global 		data	"C:/Users/jdmic/OneDrive - University of Arizona/weather_and_agriculture"
     }
 if `"`c(username)'"' == "annal" {
@@ -52,7 +52,7 @@ if `"`c(username)'"' == "annal" {
 if $pack == 1 {
 	
 	* for packages/commands, make a local containing any required packages
-		loc userpack "blindschemes mdesc estout distinct winsor2 bumpline colrspace palettes" 
+		loc userpack "blindschemes mdesc estout distinct winsor2 bumpline colrspace palettes grc1leg2" 
 	
 	* install packages that are on ssc	
 		foreach package in `userpack' {
@@ -91,8 +91,9 @@ if $pack == 1 {
 * 1 - run weather data cleaning .do file
 * **********************************************************************
 
-/*	this code requires access to the weather data sets, which are confidential
-	and held by the World Bank. They are not publically available
+/*	this code requires access to the raw weather data time series for each true 
+	household coordinate, which are confidential and held by the world bank. 
+	they are not publicly available.
 
 	do 			"$code/ethiopia/weather_code/eth_ess_masterdo.do"
 	do 			"$code/malawi/weather_code/mwi_ihs_masterdo.do"
@@ -106,9 +107,12 @@ if $pack == 1 {
 * 2 - run household data cleaning .do files and merge with weather data
 * **********************************************************************
 
-/*	this code requires a user to have downloaded the publically available 
+/*	this code requires a user to have downloaded the publicly available 
 	household data sets and placed them into the folder structure detailed
-	in the readme file accompanying this repo.
+	in the readme file accompanying this repo. it also requires access to
+	the processed weather data, which is not publicly available but
+	can be obtained from the authors by request and with a data sharing
+	agreement in place
 
 	do 			"$code/ethiopia/household_code/eth_hh_masterdo.do"
 	do 			"$code/malawi/household_code/mwi_hh_masterdo.do"
@@ -121,16 +125,21 @@ if $pack == 1 {
 * **********************************************************************
 * 4 - run panel build and regression .do files
 * **********************************************************************
-/*
-	do			"$code/analysis/panel_build.do"
-	do			"$code/analysis/regressions.do"
+
+/*	this code can be run using the publicly available processed weather and
+	household data that is posted on Zenodo along with the replication code.
+	replication attempts should start here once the country panel data has 
+	been placed into the folder structure detailed in the readme.
 */
+	do			"$code/analysis/reg_code/panel_build.do"
+	do			"$code/analysis/reg_code/regressions.do"
+
 * **********************************************************************
 * 4 - run analysis .do files
 * **********************************************************************
-/*
+
 	do			"$code/analysis/viz_code/mismeasure_sum_table.do"
 	do			"$code/analysis/viz_code/mismeasure_sum_vis.do"
 	do			"$code/analysis/viz_code/mismeasure_bumpline_vis.do"
 	do			"$code/analysis/viz_code/mismeasure_coeff_vis.do"
-*/
+

@@ -1,9 +1,9 @@
-* Project: WB Weather
-* Created on: September 2020
+* Project: WB Weather - mismeasure paper
+* Created on: september 2020
 * Created by: jdm
-* Edited on: 20 June 2024
+* Edited on: 20 june 2024
 * Edited by: jdm
-* Stata v.18
+* Stata v.18.5
 
 * does
 	* combines data from all countries
@@ -22,9 +22,9 @@
 * **********************************************************************
 
 * define paths
-	global		source	 	"$data/regression_data"
-	global		export   	"$data/regression_data"
-	global		logout 	 	"$data/regression_data/logs"
+	global		source	 	"$data/mismeasure_weather_data/regression_data"
+	global		export   	"$data/mismeasure_weather_data/regression_data"
+	global		logout 	 	"$data/mismeasure_weather_data/regression_data/logs"
 
 * open log	
 	cap log 	close
