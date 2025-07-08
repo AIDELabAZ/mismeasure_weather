@@ -1,9 +1,9 @@
-* Project: WB Weather - mismeasure paper
-* Created on: september 2020
+* Project: WB Weather
+* Created on: January 2025
 * Created by: jdm
-* Edited on: 11 december 2024
+* Edited on: 16 Jan 2025
 * Edited by: jdm
-* Stata v.18.5
+* Stata v.18
 
 * does
 	* NOTE IT TAKES 7 MIN TO RUN ALL REGRESSIONS
@@ -25,11 +25,15 @@
 * define paths
 	global		source	 	"$data/mismeasure_weather_data/regression_data"
 	global		results   	"$data/mismeasure_weather_data/results_data"
+	global		stab 		"$data/mismeasure_weather_data/results_data/tables"
+	global		xtab 	 	"$data/mismeasure_weather_data/paper/tables"
+	global		sfig	 	"$data/mismeasure_weather_data/results_data/figures"	
+	global 		xfig       "$data/mismeasure_weather_data/paper/figures"
 	global		logout 	 	"$data/mismeasure_weather_data/regression_data/logs"
 
 * open log	
 	cap log 	close
-	log 		using 		"$logout/regressions", append
+	log 		using 		"$logout/reg_placebo", append
 
 	
 * **********************************************************************
@@ -44,14 +48,23 @@
 * 2 - regressions on weather data
 * **********************************************************************
 
+* generate affine transforms of cpc data
+	gen			wp_1 = v05_rf3
+	gen			wp_2 = v05_rf3 + 100
+	gen			wp_3 = 10*v05_rf3
+	gen			wp_4 = 10*v05_rf3 + 100
+
+
 * create locals for total farm and just for maize
-	loc		weather 	v*
+	loc		weather 	wp_*
+	loc		inputstf 	lntf_lab lntf_frt tf_pst tf_hrb tf_irr
+	loc 	inputscp 	lncp_lab lncp_frt cp_pst cp_hrb cp_irr
 
 * create file to post results to
-	tempname 	reg_results
-	postfile 	`reg_results' country str3 sat str2 depvar str4 regname str3 varname ///
+	tempname 	reg_placebo
+	postfile 	`reg_placebo' country str3 sat str2 depvar str4 regname str4 varname ///
 					betarain serain adjustedr loglike dfr obs ///
-					using "$results/reg_results.dta", replace
+					using "$results/reg_placebo.dta", replace
 					
 * define loop through levels of the data type variable	
 levelsof 	country		, local(levels)
@@ -64,42 +77,42 @@ foreach l of local levels {
 		foreach 	v of varlist `weather' { 
 
 		* define locals for naming conventions
-			loc 	varn = 	substr("`v'", 1, 3)
+			loc 	varn = 	substr("`v'", 1, 4)
 			loc 	sat = 	substr("`v'", 5, 3)
 
 		* 2.1: Value of Harvest
 		
 		* weather
 			reg 		lntf_yld `v' if country == `l', vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("tf") ("reg1") ///
+			post 		`reg_placebo' (`l') ("`sat'") ("tf") ("reg1") ///
 						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
 						(`=e(ll)') (`=e(df_r)') (`=e(N)')
 
 		* weather and fe	
 			xtreg 		lntf_yld `v' i.year if country == `l', fe vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("tf") ("reg2") ///
+			post 		`reg_placebo' (`l') ("`sat'") ("tf") ("reg2") ///
 						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
 						(`=e(ll)') (`=e(df_r)') (`=e(N)')
-
+						
 		* 2.2: Quantity of Maize
 		
 		* weather
 			reg 		lncp_yld `v' if country == `l', vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("cp") ("reg1") ///
+			post 		`reg_placebo' (`l') ("`sat'") ("cp") ("reg1") ///
 						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
 						(`=e(ll)') (`=e(df_r)') (`=e(N)')
 
 		* weather and fe	
 			xtreg 		lncp_yld `v' i.year if country == `l', fe vce(cluster hhid)
-			post 		`reg_results' (`l') ("`sat'") ("cp") ("reg2") ///
+			post 		`reg_placebo' (`l') ("`sat'") ("cp") ("reg2") ///
 						("`varn'") (`=_b[`v']') (`=_se[`v']') (`=e(r2_a)') ///
 						(`=e(ll)') (`=e(df_r)') (`=e(N)')
 	}
 }
 
 * close the post file and open the data file
-	postclose	`reg_results' 
-	use 		"$results/reg_results", clear
+	postclose	`reg_placebo' 
+	use 		"$results/reg_placebo", clear
 
 * drop the cross section FE results
 	drop if		loglike == .
@@ -138,82 +151,6 @@ foreach l of local levels {
 * create unique id variable
 	egen 		reg_id = group(country sat depvar regname varname)
 	lab var 	reg_id "unique regression id"
-	
-* create variable to record the name of the rainfall variable
-	sort		varname
-	gen 		aux_var = 1 if varname == "v01"
-	replace 	aux_var = 2 if varname == "v02"
-	replace 	aux_var = 3 if varname == "v03"
-	replace 	aux_var = 4 if varname == "v04"
-	replace 	aux_var = 5 if varname == "v05"
-	replace 	aux_var = 6 if varname == "v06"
-	replace 	aux_var = 7 if varname == "v07"
-	replace 	aux_var = 8 if varname == "v08"
-	replace 	aux_var = 9 if varname == "v09"
-	replace 	aux_var = 10 if varname == "v10"
-	replace 	aux_var = 11 if varname == "v11"
-	replace 	aux_var = 12 if varname == "v12"
-	replace 	aux_var = 13 if varname == "v13"
-	replace 	aux_var = 14 if varname == "v14"
-	replace 	aux_var = 15 if varname == "v15"
-	replace 	aux_var = 16 if varname == "v16"
-	replace 	aux_var = 17 if varname == "v17"
-	replace 	aux_var = 18 if varname == "v18"
-	replace 	aux_var = 19 if varname == "v19"
-	replace 	aux_var = 20 if varname == "v20"
-	replace 	aux_var = 21 if varname == "v21"
-	replace 	aux_var = 22 if varname == "v22"
-
-* order and label the varaiable
-	order 		aux_var, after(varname)
-	lab def		varname 	1 "Mean Daily Rainfall" ///
-							2 "Median Daily Rainfall" ///
-							3 "Variance of Daily Rainfall" ///
-							4 "Skew of Daily Rainfall" ///
-							5 "Total Rainfall" ///
-							6 "Deviation in Total Rainfall" ///
-							7 "Z-Score of Total Rainfall" ///
-							8 "Rainy Days" ///
-							9 "Deviation in Rainy Days" ///
-							10 "No Rain Days" ///
-							11 "Deviation in No Rain Days" ///
-							12 "% Rainy Days" ///
-							13 "Deviation in % Rainy Days" ///
-							14 "Longest Dry Spell" ///
-							15 "Mean Daily Temperature" ///
-							16 "Median Daily Temperature" ///
-							17 "Variance of Daily Temperature" ///
-							18 "Skew of Daily Temperature" ///
-							19 "Growing Degree Days (GDD)" ///
-							20 "Deviation in GDD" ///
-							21 "Z-Score of GDD" ///
-							22 "Maximum Daily Temperature" 
-	lab val		aux_var varname
-	lab var		aux_var "Variable name"
-	drop 		varname
-	rename 		aux_var varname
-	drop		if varname == .
-	
-* create variable to record the name of the satellite
-	sort 		sat
-	egen 		aux_sat = group(sat)
-
-* order and label the varaiable
-	order 		aux_sat, after(sat)
-	lab def		sat 	1 "ARC2" ///
-						2 "CHIRPS" ///
-						3 "CPC RF" ///
-						4 "ERA5 RF" ///
-						5 "MERRA-2 RF" ///
-						6 "TAMSAT" ///
-						7 "CPC TP" ///
-						8 "ERA5 TP" ///
-						9 "MERRA-2 TP" 
-	lab val		aux_sat sat	
-	lab var		aux_sat "Satellite source"
-	drop 		sat
-	rename 		aux_sat sat
-
 
 * create variable to record the dependent variable
 	sort 		depvar
@@ -254,6 +191,28 @@ foreach l of local levels {
 	drop 		regname
 	rename 		aux_reg regname
 
+* create variable to record the regressions specification
+	sort 		varname
+	gen 		aux_var = 1 if varname == "wp_1"
+	replace 	aux_var = 2 if varname == "wp_2"
+	replace 	aux_var = 3 if varname == "wp_3"
+	replace 	aux_var = 4 if varname == "wp_4"
+	replace 	aux_var = 5 if varname == "wp_5"
+	replace 	aux_var = 6 if varname == "wp_6"
+	
+* order and label the transform
+	order 		aux_var, after(varname)
+	lab def		varname 	1 "Original (W)" ///
+							2 "W + 100" ///
+							3 "10*W" ///
+							4 "10*W + 100" ////
+							5 "ln(W)" ///
+							6 "ihs(W)" 
+	lab val		aux_var varname
+	lab var		aux_var "Affine Transform"
+	drop 		varname
+	rename 		aux_var varname
+
 order	reg_id
 	
 *generate different betas based on signficance
@@ -278,11 +237,69 @@ order	reg_id
 	lab	def			posneg 0 "Negative" 1 "Positive"
 	lab val			b_sign posneg
 	lab var			b_sign "Sign on weather variable"
-	
-* save complete results
-	compress
-	save 		"$results/lsms_complete_results.dta", replace
 
+	
+	
+************************************************************************
+**# 2 - generate rainfall bumpline plots 
+************************************************************************
+
+sort country regname depvar varname
+
+egen reg_num = group(country regname depvar)
+
+replace reg_num = reg_num + 1 if country > 1
+replace reg_num = reg_num + 1 if country > 2
+replace reg_num = reg_num + 1 if country > 3
+replace reg_num = reg_num + 1 if country > 4
+replace reg_num = reg_num + 1 if country > 5
+replace reg_num = reg_num + 1 if country > 6
+
+lab define 		reg_name 1 "W, Qty" 2 "W, Val" 3 "W + FE, Qty" 4 "W + FE, Val" ///
+					6 "W, Qty" 7 "W, Val" 8 "W +  FE, Qty" 9 "W + FE, Val" ///
+					12 "W, Qty" 13 "W, Val" 14 "W + FE, Qty" 15 "W + FE, Val" ///
+					17 "W, Qty" 18 "W, Val" 19 "W + FE, Qty" 20 "W + FE, Val" ///
+					22 "W, Qty" 23 "W, Val" 24 "W + FE, Qty" 25 "W + FE, Val" ///
+					27 "W, Qty" 28 "W, Val" 29 "W + FE, Qty" 30 "W + FE, Val", replace
+					
+label values reg_num reg_name
+
+bumpline beta reg_num if country == 1, by(varname) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	title("Ethiopia") xtitle("") ytitle("Coefficient Rank") palette(viridis) ///
+	xlab(, valuelabel angle(45)) saving("$sfig/eth_pl_bump", replace)
+
+bumpline beta reg_num if country == 2, by(varname) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	title("Malawi") xtitle("") ytitle("") palette(viridis) ///
+	xlab(, valuelabel angle(45)) saving("$sfig/mwi_pl_bump", replace)
+
+bumpline beta reg_num if country == 4, by(varname) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	title("Niger") xtitle("") ytitle("") palette(viridis) ///
+	xlab(, valuelabel angle(45)) saving("$sfig/ngr_pl_bump", replace)
+
+bumpline beta reg_num if country == 5, by(varname) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	title("Nigeria") xtitle("") ytitle("") palette(viridis) ///
+	xlab(, valuelabel angle(45)) saving("$sfig/nga_pl_bump", replace)
+
+bumpline beta reg_num if country == 6, by(varname) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	title("Tanzania") xtitle("") ytitle("") palette(viridis) ///
+	xlab(, valuelabel angle(45)) saving("$sfig/tza_pl_bump", replace)
+
+bumpline beta reg_num if country == 7, by(varname) top(6) xsize(2) ysize(1) smooth(4) ///
+	lw(0.5) msym(square) mlwid(0.3) msize(1.1)  offset(20) ///
+	title("Uganda") xtitle("") ytitle("") palette(viridis) ///
+	xlab(, valuelabel angle(45)) saving("$sfig/uga_pl_bump", replace)
+	
+	gr combine 		"$sfig/eth_pl_bump.gph" "$sfig/mwi_pl_bump.gph" "$sfig/ngr_pl_bump.gph" ///
+						"$sfig/nga_pl_bump.gph" "$sfig/tza_pl_bump.gph" "$sfig/uga_pl_bump.gph", ///
+						col(2) iscale(.5) commonscheme
+						
+	graph export 	"$xfig\placebo_bump.pdf", as(pdf) replace
+	
 * close the log
 	log	close
 
