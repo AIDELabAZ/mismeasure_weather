@@ -9,12 +9,13 @@
 	* serves as the starting point to find any do-file, dataset or output
 	* runs all do-files needed for data work
 	* loads any user written packages needed for analysis
+	* take 11 minutes to run
 
 * assumes
 	* access to processed data on Zenodo and code
 
 * TO DO:
-	* add run time 
+	* complete
 
 
 * **********************************************************************
