@@ -56,7 +56,7 @@ The code in this repository contains the cleaning code for the raw weather and r
 
 #### Folder structure
 
-The [OSF project page][1] provides more details on the data cleaning. For the household cleaning code to run, the LSMS-ISA data needs to be placed in the following folder structure:<br>
+The [OSF project page][1] provides more details on the data cleaning. For the household cleaning code to run, the LSMS-ISA data needs to be placed in the folder structure below. The `projectdo.do` file contains additional information on folder and file structure and allows the replicator to replicate all results in the paper starting from the merged weather-household country panel data.<br>
 
 ```stata
 weather_and_agriculture
