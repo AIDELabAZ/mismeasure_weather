@@ -6,7 +6,7 @@ The raw household survey data is publicly available and can be cleaned using the
 
 What we can provide in terms of data in this replication package is the processed and matched weather and household data that is sufficiently de-identified that the World Bank is comfortable with public release. Therefore, in the Zenodo repository we provide complete cleaned and merged panel data for each country. This allows a replicator to start with those country level panels and run the replication code to sticth the panels together, run all regressions, and produce all tables and figures in the paper and the online-only supplemental material. Contact Drs. Anna Josephson or Jeffrey D. Michler and they can share an intermediate, de-identified version of the weather data for use in replicating the results.
 
-[![DOI](https://zenodo.org/badge/510811151.svg)](https://zenodo.org/badge/latestdoi/510811151)
+[![DOI](https://zenodo.org/badge/745103135.svg)](https://doi.org/10.5281/zenodo.15848948)
 
 This README was last updated on 8 July 2025. 
 
