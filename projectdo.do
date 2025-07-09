@@ -38,9 +38,9 @@ if `"`c(username)'"' == "jdmic" {
         global 		code  	"C:/Users/jdmic/git/mismeasure_weather"
 		global 		data	"C:/Users/jdmic/OneDrive - University of Arizona/weather_and_agriculture"
     }
-if `"`c(username)'"' == "annal" {
-        global 		code  	"C:/Users/aljosephson/git/weather_and_agriculture"
-		global 		data	"C:/Users/aljosephson/OneDrive - University of Arizona/weather_and_agriculture"
+if `"`c(username)'"' == "aljos" {
+        global 		code  	"C:/Users/aljos/git/weather_and_agriculture"
+		global 		data	"C:/Users/aljos/OneDrive - University of Arizona/weather_and_agriculture"
     }	
 
 
