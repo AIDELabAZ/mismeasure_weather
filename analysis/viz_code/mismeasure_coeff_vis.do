@@ -56,7 +56,6 @@
 ************************************************************************		
 
 	frame change rainfall
-	drop			obs
 
 	replace			country = country - 1 if country > 2
 	
@@ -65,6 +64,7 @@
 ************************************************************************		
 	
 preserve	
+	drop			obs
 	keep			if varname == 5 & regname == 2
 	sort 			country beta
 	gen 			obs = _n
@@ -136,6 +136,7 @@ restore
 ************************************************************************		
 	
 preserve	
+	drop			obs
 	keep			if varname == 10 & regname == 2
 	sort 			country beta
 	gen 			obs = _n
@@ -207,7 +208,6 @@ restore
 ************************************************************************		
 
 	frame change temperature
-	drop			obs
 
 	replace			country = country - 1 if country > 2
 	
@@ -217,6 +217,7 @@ restore
 ************************************************************************		
 	
 preserve	
+	drop			obs
 	keep			if varname == 15 & regname == 2
 	sort 			country beta
 	gen 			obs = _n
@@ -287,6 +288,7 @@ restore
 ************************************************************************		
 	
 preserve	
+	drop			obs
 	keep			if varname == 19 & regname == 2
 	sort 			country beta
 	gen 			obs = _n
@@ -439,6 +441,7 @@ frame rainfall {
 	restore
 	}
 }
+
 ************************************************************************
 **## 4.2 - generate appendix temperature specification plots 
 ************************************************************************		
